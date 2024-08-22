@@ -12,6 +12,6 @@ Entry example:
   "Speed" : 1,
   "Stealth" : 25,
   "Cunning" : 15
-  }
+}
 
 '''
