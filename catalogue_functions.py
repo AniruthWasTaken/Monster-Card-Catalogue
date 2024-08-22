@@ -28,6 +28,9 @@ def eg_non_empty_string(prompt):
   return user_input
 
 
+''' ==== HELPER FUNCTIONS ==== '''
+
+
 # Get monster : stats from catalogue
 def get_monster_and_stats():
   '''Gets the user to input a monster name, returns the monster stats'''
@@ -40,7 +43,25 @@ def get_monster_and_stats():
   return temporary_monster
 
 
-''' ==== FORMATTER FUNCTIONS ==== '''
+def format_catalogue():
+  '''Nicely formats the entire catalogue'''
+  # The formatted catalogue is a string that contains the catalogue in a nice format
+  formatted_catalogue = ""
+  formatted_catalogue += "CATALOGUE \n\n"  # Add the title
+
+  for monster in data.catalogue:
+    formatted_catalogue += f"{monster}\n"
+
+    formatted_catalogue += "- "
+    for stat in data.catalogue[monster]:
+      value = data.catalogue[monster][stat]
+      formatted_catalogue += f"{stat}: {value}, "
+
+    formatted_catalogue += "\n"
+
+  return formatted_catalogue
+
+
 ''' ==== MENU FUNCTIONS ==== '''
 
 # Add
