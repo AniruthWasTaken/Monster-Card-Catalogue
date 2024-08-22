@@ -8,7 +8,8 @@ while True:
   user_input = eg.buttonbox("What would you like to do?",
                             choices=["Add", "Remove", "Search/Edit", "Quit"])
   if user_input == "Add":
-    eg.msgbox(str(functions.format_catalogue()))
+    monster_name = functions.eg_non_empty_string("Monster name")
+    eg.msgbox(str(functions.format_monster_card(monster_name)))
   elif user_input == "Remove":
     eg.msgbox("Cody")
   elif user_input == "Search/Edit":

@@ -62,6 +62,20 @@ def format_catalogue():
   return formatted_catalogue
 
 
+def format_monster_card(monster_name):
+  '''Nicely formats the monster card'''
+
+  if monster_name not in data.catalogue:
+    eg.msgbox("That card is not in the catalogue")
+    return
+
+  formatted_monster_card = f"{monster_name}\n"
+  for stat in data.catalogue[monster_name]:
+    value = data.catalogue[monster_name][stat]
+    formatted_monster_card += f"- {stat}: {value}\n"
+  return formatted_monster_card
+
+
 ''' ==== MENU FUNCTIONS ==== '''
 
 # Add
