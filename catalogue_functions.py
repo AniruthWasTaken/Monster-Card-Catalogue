@@ -18,6 +18,7 @@ def eg_integer_stat_range_check(prompt):
 
 # Get string input return non empty
 def eg_non_empty_string(prompt):
+  '''Gets the user to input a string that is not empty'''
   user_input = ""  # Initialise the user input as an empty string
   while True:  # Eternal loop; only breaks when the user inputs something
     user_input = eg.enterbox(prompt)
@@ -28,6 +29,18 @@ def eg_non_empty_string(prompt):
 
 
 # Get monster : stats from catalogue
+def get_monster_and_stats():
+  '''Gets the user to input a monster name, returns the monster stats'''
+  user_input = eg_non_empty_string("Monster name:")
+  while user_input not in data.catalogue:
+    user_input = eg_non_empty_string(
+        "That monster is not in the catalogue. Please try again.")
+  temporary_monster = {}
+  temporary_monster.update({user_input: data.catalogue[user_input]})
+  return temporary_monster
+
+
+''' ==== FORMATTER FUNCTIONS ==== '''
 ''' ==== MENU FUNCTIONS ==== '''
 
 # Add
