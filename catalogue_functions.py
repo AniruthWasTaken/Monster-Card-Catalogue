@@ -131,16 +131,18 @@ def add_monster():
 # Remove
 def remove_monster():
   '''Get the user to remove a monster from the catalogue'''
-  # Get the monster name with a choice box
-  monster_to_remove = eg.choicebox("Which monster would you like to remove?",
-                                   choices=get_monster_names())
-  if monster_to_remove is None:
-    return
-  # Yes/No
-  remove_from_catalogue = eg.buttonbox(
-      "Are you sure you want to remove this monster?", choices=["Yes", "No"])
-  if remove_from_catalogue == "Yes":
-    data.catalogue.pop(str(monster_to_remove))
+  while True:
+    # Get the monster name with a choice box
+    monster_to_remove = eg.choicebox("Which monster would you like to remove?",
+                                     choices=get_monster_names())
+    if monster_to_remove is None:
+      return
+    # Yes/No
+    remove_from_catalogue = eg.buttonbox(
+        "Are you sure you want to remove this monster?", choices=["Yes", "No"])
+    if remove_from_catalogue == "Yes":
+      data.catalogue.pop(str(monster_to_remove))
+      break
 
 
 # Search and Edit
