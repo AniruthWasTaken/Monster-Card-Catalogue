@@ -76,6 +76,14 @@ def format_monster_card(monster_name):
   return formatted_monster_card
 
 
+def get_monster_names():
+  '''Returns all the monster'''
+  formatted_list = "Monsters\n"
+  for monster in data.catalogue:
+    formatted_list += f"{monster}\n"
+  return str(formatted_list)
+
+
 ''' ==== MENU FUNCTIONS ==== '''
 
 # Add

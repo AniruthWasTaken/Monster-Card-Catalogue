@@ -9,7 +9,7 @@ while True:
                             choices=["Add", "Remove", "Search/Edit", "Quit"])
   if user_input == "Add":
     monster_name = functions.eg_non_empty_string("Monster name")
-    eg.msgbox(str(functions.format_monster_card(monster_name)))
+    eg.msgbox(functions.get_monster_names())
   elif user_input == "Remove":
     eg.msgbox("Cody")
   elif user_input == "Search/Edit":
