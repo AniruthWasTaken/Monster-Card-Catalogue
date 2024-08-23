@@ -90,37 +90,42 @@ def get_monster_names():
 # Add
 def add_monster():
   '''Get the user to add a monster to the catalogue'''
-  # Temporary variables
-  temporary_card = {}
-  # Monster name
-  monster_name = eg_non_empty_string("Monster name:")
-  # Monster strength
-  monster_strength = eg_integer_stat_range_check("Strength:")
-  # Monster speed
-  monster_speed = eg_integer_stat_range_check("Speed:")
-  # Monster stealth
-  monster_stealth = eg_integer_stat_range_check("Stealth:")
-  # Monster cunning
-  monster_cunning = eg_integer_stat_range_check("Cunning:")
+  while True:
+    # Temporary variables
+    temporary_card = {}
+    # Monster name
+    monster_name = eg_non_empty_string("Monster name:")
+    # Monster strength
+    monster_strength = eg_integer_stat_range_check("Strength:")
+    # Monster speed
+    monster_speed = eg_integer_stat_range_check("Speed:")
+    # Monster stealth
+    monster_stealth = eg_integer_stat_range_check("Stealth:")
+    # Monster cunning
+    monster_cunning = eg_integer_stat_range_check("Cunning:")
 
-  # Update the temporary card with the new details
-  temporary_card.update({
-      monster_name: {
-          "Strength": monster_strength,
-          "Speed": monster_speed,
-          "Stealth": monster_stealth,
-          "Cunning": monster_cunning
-      }
-  })
+    # Update the temporary card with the new details
+    temporary_card.update({
+        monster_name: {
+            "Strength": monster_strength,
+            "Speed": monster_speed,
+            "Stealth": monster_stealth,
+            "Cunning": monster_cunning
+        }
+    })
 
-  formatted_string = f"{monster_name}\n- Strength: {monster_strength}\n- Speed: {monster_speed}\n- Stealth: {monster_stealth}\n- Cunning: {monster_cunning}\n"
+    formatted_string = f"{monster_name}\n- Strength: {monster_strength}\n- Speed: {monster_speed}\n- Stealth: {monster_stealth}\n- Cunning: {monster_cunning}\n"
 
-  # Yes/No
-  add_to_catalogue = eg.buttonbox(f"Details correct? \n\n{formatted_string}",
-                                  choices=["Yes", "No"])
-  # If Yes, add card to the catalogue
-  if add_to_catalogue == "Yes":
-    data.catalogue.update(temporary_card)
+    # Yes/No
+    add_to_catalogue = eg.buttonbox(f"Details correct? \n\n{formatted_string}",
+                                    choices=["Yes", "No"])
+    # If Yes, add card to the catalogue
+    if add_to_catalogue == "Yes":
+      data.catalogue.update(temporary_card)
+      break
+    # If No, ask the user to re-enter the details
+    else:
+      eg.msgbox("Please re-enter the card details")
 
 
 # Remove
