@@ -12,7 +12,7 @@ while True:
   elif user_input == "Remove":
     functions.remove_monster()
   elif user_input == "Search/Edit":
-    eg.msgbox(functions.format_catalogue())
+    functions.search_and_edit_monster()
   elif user_input == "Quit":
     eg.msgbox("Thank you for using the Monster Catalogue!")
     break

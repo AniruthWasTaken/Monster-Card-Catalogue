@@ -139,3 +139,37 @@ def remove_monster():
 
 
 # Search and Edit
+def search_and_edit_monster():
+  '''Get the user to search and edit a monster in the catalogue'''
+  monster_to_edit = eg.choicebox("Which monster card would you like to see?",
+                                 choices=get_monster_names())
+  edit_monster = eg.buttonbox(
+      f"{format_monster_card(monster_to_edit)}\n\nDo you want to to edit this card?",
+      choices=["Yes", "No"])
+  if edit_monster == "No":
+    return
+  new_card = {}
+  monster_name = eg_non_empty_string("Monster name:")
+  # Monster strength
+  monster_strength = eg_integer_stat_range_check("Strength:")
+  # Monster speed
+  monster_speed = eg_integer_stat_range_check("Speed:")
+  # Monster stealth
+  monster_stealth = eg_integer_stat_range_check("Stealth:")
+  # Monster cunning
+  monster_cunning = eg_integer_stat_range_check("Cunning:")
+
+  apply_edits = eg.buttonbox("Apply edits?", choices=["Yes", "No"])
+  if apply_edits == "No":
+    return
+
+  new_card.update({
+      monster_name: {
+          "Strength": monster_strength,
+          "Speed": monster_speed,
+          "Stealth": monster_stealth,
+          "Cunning": monster_cunning
+      }
+  })
+  data.catalogue.pop(str(monster_to_edit))
+  data.catalogue.update(new_card)
