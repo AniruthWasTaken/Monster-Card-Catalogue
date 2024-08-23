@@ -63,7 +63,7 @@ def format_catalogue():
 
 
 def format_monster_card(monster_name):
-  '''Nicely formats the monster card'''
+  '''Nicely formats the monster card (must be in catalogue)'''
 
   if monster_name not in data.catalogue:
     eg.msgbox("That card is not in the catalogue")
@@ -78,16 +78,64 @@ def format_monster_card(monster_name):
 
 def get_monster_names():
   '''Returns all the monster'''
-  formatted_list = "Monsters\n"
+  monster_names_list = []
   for monster in data.catalogue:
-    formatted_list += f"{monster}\n"
-  return str(formatted_list)
+    monster_names_list.append(monster)
+  return monster_names_list
 
 
 ''' ==== MENU FUNCTIONS ==== '''
 
+
 # Add
+def add_monster():
+  '''Get the user to add a monster to the catalogue'''
+  # Temporary variables
+  temporary_card = {}
+  # Monster name
+  monster_name = eg_non_empty_string("Monster name:")
+  # Monster strength
+  monster_strength = eg_integer_stat_range_check("Strength:")
+  # Monster speed
+  monster_speed = eg_integer_stat_range_check("Speed:")
+  # Monster stealth
+  monster_stealth = eg_integer_stat_range_check("Stealth:")
+  # Monster cunning
+  monster_cunning = eg_integer_stat_range_check("Cunning:")
+
+  # Update the temporary card with the new details
+  temporary_card.update({
+      monster_name: {
+          "Strength": monster_strength,
+          "Speed": monster_speed,
+          "Stealth": monster_stealth,
+          "Cunning": monster_cunning
+      }
+  })
+
+  formatted_string = f"{monster_name}\n- Strength: {monster_strength}\n- Speed: {monster_speed}\n- Stealth: {monster_stealth}\n- Cunning: {monster_cunning}\n"
+
+  # Yes/No
+  add_to_catalogue = eg.buttonbox(f"Details correct? \n\n{formatted_string}",
+                                  choices=["Yes", "No"])
+  # If Yes, add card to the catalogue
+  if add_to_catalogue == "Yes":
+    data.catalogue.update(temporary_card)
+
 
 # Remove
+def remove_monster():
+  '''Get the user to remove a monster from the catalogue'''
+  # Get the monster name with a choice box
+  monster_to_remove = eg.choicebox("Which monster would you like to remove?",
+                                   choices=get_monster_names())
+  if monster_to_remove is None:
+    return
+  # Yes/No
+  remove_from_catalogue = eg.buttonbox(
+      "Are you sure you want to remove this monster?", choices=["Yes", "No"])
+  if remove_from_catalogue == "Yes":
+    data.catalogue.pop(str(monster_to_remove))
+
 
 # Search and Edit
