@@ -122,6 +122,7 @@ def add_monster():
     # If Yes, add card to the catalogue
     if add_to_catalogue == "Yes":
       data.catalogue.update(temporary_card)
+      print(format_monster_card(monster_name))
       break
     # If No, ask the user to re-enter the details
     else:
@@ -139,7 +140,8 @@ def remove_monster():
       return
     # Yes/No
     remove_from_catalogue = eg.buttonbox(
-        "Are you sure you want to remove this monster?", choices=["Yes", "No"])
+        f"Are you sure you want to remove {monster_to_remove}?",
+        choices=["Yes", "No"])
     if remove_from_catalogue == "Yes":
       data.catalogue.pop(str(monster_to_remove))
       break
