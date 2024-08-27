@@ -95,14 +95,24 @@ def add_monster():
     temporary_card = {}
     # Monster name
     monster_name = eg_non_empty_string("Monster name:")
+    if monster_name is None:
+      return
     # Monster strength
     monster_strength = eg_integer_stat_range_check("Strength:")
+    if monster_strength is None:
+      return
     # Monster speed
     monster_speed = eg_integer_stat_range_check("Speed:")
+    if monster_speed is None:
+      return
     # Monster stealth
     monster_stealth = eg_integer_stat_range_check("Stealth:")
+    if monster_stealth is None:
+      return
     # Monster cunning
     monster_cunning = eg_integer_stat_range_check("Cunning:")
+    if monster_cunning is None:
+      return
 
     # Update the temporary card with the new details
     temporary_card.update({
