@@ -19,8 +19,6 @@ Entry example:
 min_stat_value = 1
 max_stat_value = 25
 
-so_once_upon_a_time_there_was_a_logitech_mouse_jawline = True
-
 catalogue = dict(Stoneling={
     "Strength": 7,
     "Speed": 1,
