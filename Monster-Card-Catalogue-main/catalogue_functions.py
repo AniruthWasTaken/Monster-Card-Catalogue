@@ -84,6 +84,11 @@ def get_monster_names():
         monster_names_list.append(monster)
     return monster_names_list
 
+def get_monster_names_lower_case():
+    monster_names_list = []
+    for monster in data.catalogue:
+        monster_names_list.append(monster.lower())
+    return monster_names_list
 
 ''' ==== MENU FUNCTIONS ==== '''
 
@@ -98,6 +103,10 @@ def add_monster():
         monster_name = eg_non_empty_string("Monster name:")
         if monster_name is None:
             return
+        while monster_name.lower() in get_monster_names_lower_case():
+            monster_name = eg_non_empty_string("A card with that name already exists! Please try again.")
+            if monster_name is None:
+                return
         # Monster strength
         monster_strength = eg_integer_stat_range_check("Strength:")
         if monster_strength is None:
@@ -166,15 +175,10 @@ def search_and_edit_monster():
     '''Get the user to search and edit a monster in the catalogue'''
     monster_to_edit = ""
     if len(data.catalogue) > 1:
-        monster_to_edit = eg.choicebox("Which monster card would you like to see?", choices=get_monster_names())
+        monster_to_edit = eg.choicebox("Which monster card would you like to edit?", choices=get_monster_names())
     else:
-        monster_to_edit = eg.buttonbox("Which monster card would you like to see?", choices=get_monster_names())
+        monster_to_edit = eg.buttonbox("Which monster card would you like to edit?", choices=get_monster_names())
     if monster_to_edit is None:
-        return
-    edit_monster = eg.buttonbox(
-        f"{format_monster_card(monster_to_edit)}\n\nDo you want to to edit this card?",
-        choices=["Yes", "No"])
-    if edit_monster == "No":
         return
     new_card = {}
     monster_name = eg_non_empty_string("Monster name:")
@@ -214,8 +218,8 @@ def search_and_edit_monster():
 
 
 def display_catalogue():
-    eg.msgbox(format_catalogue())
     print(format_catalogue())
+    eg.msgbox(format_catalogue())
 
 
 def quit():

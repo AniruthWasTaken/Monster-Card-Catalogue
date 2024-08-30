@@ -7,12 +7,12 @@ import catalogue_functions as functions
 while True:
     user_input = eg.buttonbox(
         "What would you like to do?",
-        choices=["Add", "Remove", "Search/Edit", "See Menu", "Quit"])
-    if user_input == "Add":
+        choices=["Add Card", "Remove Card", "Edit Card", "See Menu", "Quit"])
+    if user_input == "Add Card":
         functions.add_monster()
-    elif user_input == "Remove":
+    elif user_input == "Remove Card":
         functions.remove_monster()
-    elif user_input == "Search/Edit":
+    elif user_input == "Edit Card":
         functions.search_and_edit_monster()
     elif user_input == "See Menu":
         functions.display_catalogue()
