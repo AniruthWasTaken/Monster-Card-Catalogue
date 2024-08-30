@@ -15,9 +15,7 @@ while True:
     elif user_input == "Search/Edit":
         functions.search_and_edit_monster()
     elif user_input == "See Menu":
-        formatted_catalogue = functions.format_catalogue()
-        eg.msgbox(formatted_catalogue)
-        print(formatted_catalogue)
+        functions.display_catalogue()
     elif user_input == "Quit":
-        eg.msgbox("Thank you for using the Monster Catalogue!")
+        functions.quit()
         break

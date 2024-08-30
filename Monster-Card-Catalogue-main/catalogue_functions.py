@@ -143,7 +143,9 @@ def add_monster():
 # Remove
 def remove_monster():
     '''Get the user to remove a monster from the catalogue'''
-    if
+    if len(data.catalogue) == 1:
+        eg.msgbox("There is one card remaining, you cannot remove it!")
+        return
     while True:
         # Get the monster name with a choice box
         monster_to_remove = eg.choicebox("Which monster would you like to remove?",
@@ -162,8 +164,11 @@ def remove_monster():
 # Search and Edit
 def search_and_edit_monster():
     '''Get the user to search and edit a monster in the catalogue'''
-    monster_to_edit = eg.choicebox("Which monster card would you like to see?",
-                                   choices=get_monster_names())
+    monster_to_edit = ""
+    if len(data.catalogue) > 1:
+        monster_to_edit = eg.choicebox("Which monster card would you like to see?", choices=get_monster_names())
+    else:
+        monster_to_edit = eg.buttonbox("Which monster card would you like to see?", choices=get_monster_names())
     if monster_to_edit is None:
         return
     edit_monster = eg.buttonbox(
@@ -206,3 +211,12 @@ def search_and_edit_monster():
     })
     data.catalogue.pop(str(monster_to_edit))
     data.catalogue.update(new_card)
+
+
+def display_catalogue():
+    eg.msgbox(format_catalogue())
+    print(format_catalogue())
+
+
+def quit():
+    eg.msgbox("Thank you for using the Monster Catalogue!")
