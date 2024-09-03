@@ -7,21 +7,19 @@ import catalogue_global_variables as data
 
 # Get integer with range check
 def eg_integer_stat_range_check(prompt):
-    '''Gets the user to input a whole number between the min stat value and the max stat value'''
+    """Gets the user to input a whole number between the min stat value and the max stat value"""
     # Since the integer box already handles unexpected values and ranges
     # That is why I can just set the lower and upper bounds in the integer box function
-    user_input = eg.integerbox(prompt,
-                               lowerbound=data.min_stat_value,
-                               upperbound=data.max_stat_value)
+    user_input = eg.integerbox(prompt, lowerbound=data.min_stat_value, upperbound=data.max_stat_value)
     # Return the end result (it will not return an invalid)
     return user_input
 
 
 # Get string input return non-empty
 def eg_non_empty_string(prompt):
-    '''Gets the user to input a string that is not empty'''
+    """Gets the user to input a string that is not empty"""
     user_input = ""  # Initialise the user input as an empty string
-    while True:  # Eternal loop; only breaks when the user inputs something
+    while True:  # Eternal loop; only breaks when the user inputs a not empty string
         user_input = eg.enterbox(prompt)
         if user_input != "":
             break
@@ -33,44 +31,41 @@ def eg_non_empty_string(prompt):
 
 
 # Get monster : stats from catalogue
-def get_monster_and_stats():
-    '''Gets the user to input a monster name, returns the monster stats'''
-    user_input = eg_non_empty_string("Monster name:")
-    while user_input not in data.catalogue:
-        user_input = eg_non_empty_string(
-            "That monster is not in the catalogue. Please try again.")
-    temporary_monster = {}
-    temporary_monster.update({user_input: data.catalogue[user_input]})
-    return temporary_monster
-
 
 def format_catalogue():
-    '''Nicely formats the entire catalogue'''
+    """Nicely formats the entire catalogue"""
     # The formatted catalogue is a string that contains the catalogue in a nice format
     formatted_catalogue = ""
     formatted_catalogue += "CATALOGUE \n\n"  # Add the title
 
+    # Add each monster card
     for monster in data.catalogue:
+        # Add the monster name
         formatted_catalogue += f"{monster}\n"
 
         formatted_catalogue += "- "
+        # Add each stat name and value
         for stat in data.catalogue[monster]:
             value = data.catalogue[monster][stat]
             formatted_catalogue += f"{stat}: {value}, "
 
+        # Add new line for the next monster
         formatted_catalogue += "\n"
 
     return formatted_catalogue
 
 
 def format_monster_card(monster_name):
-    '''Nicely formats the monster card (must be in catalogue)'''
+    """Nicely formats the monster card (must be in catalogue)"""
 
+    # Check if the monster name is not in the catalogue
     if monster_name not in data.catalogue:
         eg.msgbox("That card is not in the catalogue")
         return
 
+    # Add the title
     formatted_monster_card = f"{monster_name}\n"
+    # Add each stat and value to the string
     for stat in data.catalogue[monster_name]:
         value = data.catalogue[monster_name][stat]
         formatted_monster_card += f"- {stat}: {value}\n"
@@ -78,11 +73,12 @@ def format_monster_card(monster_name):
 
 
 def get_monster_names():
-    '''Returns all the monster'''
+    """Returns all the monster names"""
     monster_names_list = []
     for monster in data.catalogue:
         monster_names_list.append(monster)
     return monster_names_list
+
 
 def get_monster_names_lower_case():
     monster_names_list = []
@@ -90,12 +86,13 @@ def get_monster_names_lower_case():
         monster_names_list.append(monster.lower())
     return monster_names_list
 
+
 ''' ==== MENU FUNCTIONS ==== '''
 
 
 # Add
 def add_monster():
-    '''Get the user to add a monster to the catalogue'''
+    """Get the user to add a monster to the catalogue"""
     while True:
         # Temporary variables
         temporary_card = {}
@@ -107,6 +104,7 @@ def add_monster():
             monster_name = eg_non_empty_string("A card with that name already exists! Please try again.")
             if monster_name is None:
                 return
+
         # Monster strength
         monster_strength = eg_integer_stat_range_check("Strength:")
         if monster_strength is None:
@@ -134,6 +132,7 @@ def add_monster():
             }
         })
 
+        # Formatted catalogue
         formatted_string = f"{monster_name}\n- Strength: {monster_strength}\n- Speed: {monster_speed}\n- Stealth: {monster_stealth}\n- Cunning: {monster_cunning}\n"
 
         # Yes/No
@@ -151,7 +150,7 @@ def add_monster():
 
 # Remove
 def remove_monster():
-    '''Get the user to remove a monster from the catalogue'''
+    """Get the user to remove a monster from the catalogue"""
     if len(data.catalogue) == 1:
         eg.msgbox("There is one card remaining, you cannot remove it!")
         return
@@ -172,7 +171,7 @@ def remove_monster():
 
 # Search and Edit
 def search_and_edit_monster():
-    '''Get the user to search and edit a monster in the catalogue'''
+    """Get the user to search and edit a monster in the catalogue"""
     monster_to_edit = ""
     if len(data.catalogue) > 1:
         monster_to_edit = eg.choicebox("Which monster card would you like to edit?", choices=get_monster_names())
@@ -222,5 +221,5 @@ def display_catalogue():
     eg.msgbox(format_catalogue())
 
 
-def quit():
+def quit_catalogue():
     eg.msgbox("Thank you for using the Monster Catalogue!")

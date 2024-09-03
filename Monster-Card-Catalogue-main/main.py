@@ -16,6 +16,6 @@ while True:
         functions.search_and_edit_monster()
     elif user_input == "See Menu":
         functions.display_catalogue()
-    elif user_input == "Quit":
-        functions.quit()
+    else:  # This can be the quit input or the x button in the top right
+        functions.quit_catalogue()
         break
