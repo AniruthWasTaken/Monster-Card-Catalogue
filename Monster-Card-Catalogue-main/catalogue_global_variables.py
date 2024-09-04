@@ -19,6 +19,8 @@ Entry example:
 min_stat_value = 1
 max_stat_value = 25
 
+stat_names = ["Strength", "Speed", "Stealth", "Cunning"]
+
 catalogue = dict(Stoneling={
     "Strength": 7,
     "Speed": 1,

@@ -74,14 +74,20 @@ def format_monster_card(monster_name):
 
 def get_monster_names():
     """Returns all the monster names"""
+    # Initialise the list
+    # The list will contain the monster names
     monster_names_list = []
+    # Add each monster name to the monster_names_list
     for monster in data.catalogue:
         monster_names_list.append(monster)
     return monster_names_list
 
 
 def get_monster_names_lower_case():
+    # Initialise a list
+    # The list will contain all the monster names but lowercase
     monster_names_list = []
+    # Add each lowercase monster name to the list
     for monster in data.catalogue:
         monster_names_list.append(monster.lower())
     return monster_names_list
@@ -105,35 +111,20 @@ def add_monster():
             if monster_name is None:
                 return
 
-        # Monster strength
-        monster_strength = eg_integer_stat_range_check("Strength:")
-        if monster_strength is None:
-            return
-        # Monster speed
-        monster_speed = eg_integer_stat_range_check("Speed:")
-        if monster_speed is None:
-            return
-        # Monster stealth
-        monster_stealth = eg_integer_stat_range_check("Stealth:")
-        if monster_stealth is None:
-            return
-        # Monster cunning
-        monster_cunning = eg_integer_stat_range_check("Cunning:")
-        if monster_cunning is None:
-            return
+        stats = {}
+        for stat_name in data.stat_names:
+            stat_value = eg_integer_stat_range_check(f"{stat_name}:")
+            if stat_value is None:
+                return
+            stats.update({stat_name: stat_value})
 
         # Update the temporary card with the new details
-        temporary_card.update({
-            monster_name: {
-                "Strength": monster_strength,
-                "Speed": monster_speed,
-                "Stealth": monster_stealth,
-                "Cunning": monster_cunning
-            }
-        })
+        temporary_card.update({monster_name: stats})
 
         # Formatted catalogue
-        formatted_string = f"{monster_name}\n- Strength: {monster_strength}\n- Speed: {monster_speed}\n- Stealth: {monster_stealth}\n- Cunning: {monster_cunning}\n"
+        formatted_string = f"{monster_name}\n"
+        for stat in stats:
+            formatted_string += f"- {stat}: {stats[stat]}\n"
 
         # Yes/No
         add_to_catalogue = eg.buttonbox(f"Details correct? \n\n{formatted_string}",
@@ -183,35 +174,29 @@ def search_and_edit_monster():
     monster_name = eg_non_empty_string("Monster name:")
     if monster_name is None:
         return
-    # Monster strength
-    monster_strength = eg_integer_stat_range_check("Strength:")
-    if monster_strength is None:
-        return
-    # Monster speed
-    monster_speed = eg_integer_stat_range_check("Speed:")
-    if monster_speed is None:
-        return
-    # Monster stealth
-    monster_stealth = eg_integer_stat_range_check("Stealth:")
-    if monster_stealth is None:
-        return
-    # Monster cunning
-    monster_cunning = eg_integer_stat_range_check("Cunning:")
-    if monster_cunning is None:
-        return
 
-    apply_edits = eg.buttonbox("Apply edits?", choices=["Yes", "No"])
+    stats = {}
+    for stat_name in data.stat_names:
+        stat_value = eg_integer_stat_range_check(f"{stat_name}:")
+        if stat_value is None:
+            return
+        stats.update({stat_name: stat_value})
+
+    # Update the temporary card with the new details
+    new_card.update({
+        monster_name: stats
+    })
+
+    # Formatted catalogue
+    formatted_string = f"{monster_name}\n"
+    for stat in stats:
+        formatted_string += f"- {stat}: {stats[stat]}\n"
+
+    apply_edits = eg.buttonbox(f"Apply edits? \n\n{formatted_string}", choices=["Yes", "No"])
     if apply_edits == "No":
         return
 
-    new_card.update({
-        monster_name: {
-            "Strength": monster_strength,
-            "Speed": monster_speed,
-            "Stealth": monster_stealth,
-            "Cunning": monster_cunning
-        }
-    })
+    new_card.update({monster_name: stats})
     data.catalogue.pop(str(monster_to_edit))
     data.catalogue.update(new_card)
 
