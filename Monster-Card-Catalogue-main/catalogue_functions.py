@@ -164,20 +164,27 @@ def remove_monster():
 def search_and_edit_monster():
     """Get the user to search and edit a monster in the catalogue"""
     monster_to_edit = ""
+    # If there is only one card left, make the choice box into a button box as the choice box does not like having less than 2 choices
     if len(data.catalogue) > 1:
         monster_to_edit = eg.choicebox("Which monster card would you like to edit?", choices=get_monster_names())
     else:
         monster_to_edit = eg.buttonbox("Which monster card would you like to edit?", choices=get_monster_names())
+
+    # If the user clicks the cancel button, the program goes back to the main menu
     if monster_to_edit is None:
         return
+    # Initialise a new card dictionary
     new_card = {}
     monster_name = eg_non_empty_string("Monster name:")
+    # If the user clicks the cancel button, the program goes back to the main menu
     if monster_name is None:
         return
 
     stats = {}
+    # The user adds each stat value
     for stat_name in data.stat_names:
         stat_value = eg_integer_stat_range_check(f"{stat_name}:")
+        # If the user clicks the cancel button, the program goes back to the main menu
         if stat_value is None:
             return
         stats.update({stat_name: stat_value})
@@ -196,8 +203,11 @@ def search_and_edit_monster():
     if apply_edits == "No":
         return
 
+    # Update the new card
     new_card.update({monster_name: stats})
+    # Remove the old card from the catalogue
     data.catalogue.pop(str(monster_to_edit))
+    # Add the new card to the catalogue
     data.catalogue.update(new_card)
 
 
