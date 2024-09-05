@@ -6,21 +6,21 @@ import catalogue_global_variables as data
 
 
 # Get integer with range check
-def eg_integer_stat_range_check(prompt):
+def eg_integer_stat_range_check(prompt, title):
     """Gets the user to input a whole number between the min stat value and the max stat value"""
     # Since the integer box already handles unexpected values and ranges
     # That is why I can just set the lower and upper bounds in the integer box function
-    user_input = eg.integerbox(prompt, lowerbound=data.min_stat_value, upperbound=data.max_stat_value)
+    user_input = eg.integerbox(msg=prompt, title=title, lowerbound=data.min_stat_value, upperbound=data.max_stat_value)
     # Return the end result (it will not return an invalid)
     return user_input
 
 
 # Get string input return non-empty
-def eg_non_empty_string(prompt):
+def eg_non_empty_string(prompt, title):
     """Gets the user to input a string that is not empty"""
     user_input = ""  # Initialise the user input as an empty string
     while True:  # Eternal loop; only breaks when the user inputs a not empty string
-        user_input = eg.enterbox(prompt)
+        user_input = eg.enterbox(prompt, title=title)
         if user_input != "":
             break
         user_input = eg.msgbox("Please input something")
@@ -103,17 +103,20 @@ def add_monster():
         # Temporary variables
         temporary_card = {}
         # Monster name
-        monster_name = eg_non_empty_string("Monster name:")
+        msg = "Monster name:"
+        title = "Add monster"
+        monster_name = eg_non_empty_string(msg, title)
         if monster_name is None:
             return
         while monster_name.lower() in get_monster_names_lower_case():
-            monster_name = eg_non_empty_string("A card with that name already exists! Please try again.")
+            msg = "A card with that name already exists! Please try again."
+            monster_name = eg_non_empty_string(msg, title)
             if monster_name is None:
                 return
 
         stats = {}
         for stat_name in data.stat_names:
-            stat_value = eg_integer_stat_range_check(f"{stat_name}:")
+            stat_value = eg_integer_stat_range_check(prompt=f"{stat_name}:", title=title)
             if stat_value is None:
                 return
             stats.update({stat_name: stat_value})
@@ -127,8 +130,9 @@ def add_monster():
             formatted_string += f"- {stat}: {stats[stat]}\n"
 
         # Yes/No
-        add_to_catalogue = eg.buttonbox(f"Details correct? \n\n{formatted_string}",
-                                        choices=["Yes", "No"])
+        msg = f"Details correct? \n\n{formatted_string}"
+        title = "Details correct?"
+        add_to_catalogue = eg.buttonbox(msg=msg, title=title, choices=["Yes", "No"])
         # If Yes, add card to the catalogue
         if add_to_catalogue == "Yes":
             data.catalogue.update(temporary_card)
@@ -136,24 +140,32 @@ def add_monster():
             break
         # If No, ask the user to re-enter the details
         else:
-            eg.msgbox("Please re-enter the card details")
+            msg = "Please re-enter the card details"
+            title = "Card Details"
+            eg.msgbox(msg=msg, title=title)
 
 
 # Remove
 def remove_monster():
     """Get the user to remove a monster from the catalogue"""
     if len(data.catalogue) == 1:
-        eg.msgbox("There is one card remaining, you cannot remove it!")
+        msg = "There is one card remaining, you cannot remove it!"
+        title = "Can't Remove"
+        eg.msgbox(msg=msg, title=title)
         return
     while True:
         # Get the monster name with a choice box
-        monster_to_remove = eg.choicebox("Which monster would you like to remove?",
-                                         choices=get_monster_names())
+        msg = "Which monster would you like to remove?"
+        title = "Monster to Remove"
+        monster_to_remove = eg.choicebox(msg=msg, title=title,choices=get_monster_names())
         if monster_to_remove is None:
             return
         # Yes/No
+        msg = f"Are you sure you want to remove {monster_to_remove}?"
+        title = "Remove?"
         remove_from_catalogue = eg.buttonbox(
-            f"Are you sure you want to remove {monster_to_remove}?",
+            msg=msg,
+            title=title,
             choices=["Yes", "No"])
         if remove_from_catalogue == "Yes":
             data.catalogue.pop(str(monster_to_remove))
@@ -165,17 +177,19 @@ def search_and_edit_monster():
     """Get the user to search and edit a monster in the catalogue"""
     monster_to_edit = ""
     # If there is only one card left, make the choice box into a button box as the choice box does not like having less than 2 choices
+    msg = "Which card would you like to edit?"
+    title = "Card to Edit"
     if len(data.catalogue) > 1:
-        monster_to_edit = eg.choicebox("Which monster card would you like to edit?", choices=get_monster_names())
+        monster_to_edit = eg.choicebox(msg=msg, title=title, choices=get_monster_names())
     else:
-        monster_to_edit = eg.buttonbox("Which monster card would you like to edit?", choices=get_monster_names())
+        monster_to_edit = eg.buttonbox(msg=msg, title=title, choices=get_monster_names())
 
     # If the user clicks the cancel button, the program goes back to the main menu
     if monster_to_edit is None:
         return
     # Initialise a new card dictionary
     new_card = {}
-    monster_name = eg_non_empty_string("Monster name:")
+    monster_name = eg_non_empty_string("Monster name:", title)
     # If the user clicks the cancel button, the program goes back to the main menu
     if monster_name is None:
         return
@@ -183,7 +197,7 @@ def search_and_edit_monster():
     stats = {}
     # The user adds each stat value
     for stat_name in data.stat_names:
-        stat_value = eg_integer_stat_range_check(f"{stat_name}:")
+        stat_value = eg_integer_stat_range_check(f"{stat_name}:", title)
         # If the user clicks the cancel button, the program goes back to the main menu
         if stat_value is None:
             return
@@ -199,7 +213,9 @@ def search_and_edit_monster():
     for stat in stats:
         formatted_string += f"- {stat}: {stats[stat]}\n"
 
-    apply_edits = eg.buttonbox(f"Apply edits? \n\n{formatted_string}", choices=["Yes", "No"])
+    msg = f"Apply edits? \n\n{formatted_string}"
+    title = "Apply Edits?"
+    apply_edits = eg.buttonbox(msg=msg, title=title, choices=["Yes", "No"])
     if apply_edits == "No":
         return
 
@@ -213,8 +229,11 @@ def search_and_edit_monster():
 
 def display_catalogue():
     print(format_catalogue())
-    eg.msgbox(format_catalogue())
+    title = "Catalogue"
+    eg.msgbox(msg=format_catalogue(), title=title)
 
 
 def quit_catalogue():
-    eg.msgbox("Thank you for using the Monster Catalogue!")
+    msg = "Thank you for using the Monster Catalogue!"
+    title = "Bye"
+    eg.msgbox(msg=msg, title=title)

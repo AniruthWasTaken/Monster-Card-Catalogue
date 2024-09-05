@@ -5,8 +5,11 @@ import easygui as eg
 import catalogue_functions as functions
 
 while True:
+    msg = "What would you like to do?"
+    title = "Menu"
     user_input = eg.buttonbox(
-        "What would you like to do?",
+        msg=msg,
+        title=title,
         choices=["Add Card", "Remove Card", "Edit Card", "See Menu", "Quit"])
     if user_input == "Add Card":
         functions.add_monster()
